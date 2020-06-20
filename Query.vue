@@ -1,11 +1,11 @@
 <style>
-.retry-btn {
-  color: #1890ff;
-  cursor: pointer;
-}
-.no-data {
-  color: #ccc;
-}
+  .retry-btn {
+    color: #1890ff;
+    cursor: pointer;
+  }
+  .no-data {
+    color: #ccc;
+  }
 </style>
 <template>
   <div class="query-component">
@@ -42,14 +42,27 @@ import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class Query extends Vue {
-  @Prop({ required: true }) request!: () => Promise<{ originalRes: AjaxResponse; data: any }>;
+  @Prop({
+    required: true,
+    validator: (p) =>
+      typeof p === 'function' && typeof p.then === 'function' && typeof p.catch === 'function',
+  })
+  request!: () => Promise<{ originalRes: AjaxResponse; data: any }>;
+
+  // if call request automiclly
+  @Prop({ default: true }) autoReq!: boolean;
+
+  @Emit('on-retry')
+  handleRetry() {}
 
   loading = false;
   error: { code: number; msg: string } | null = null;
   data: { [k: string]: string } | Array<{ [k: string]: string }> | null = null;
 
   created() {
-    this.innnerReq();
+    if (this.autoReq) {
+      this.innnerReq();
+    }
   }
 
   async innnerReq() {
@@ -57,6 +70,7 @@ export default class Query extends Vue {
     const res = await this.request();
     this.loading = false;
     if (res.originalRes.code === 200) {
+      // this.data can be previous data
       this.data = res.data;
     } else {
       this.error = {
@@ -74,8 +88,5 @@ export default class Query extends Vue {
   isNil(val: any) {
     return val === null || val === undefined;
   }
-
-  @Emit('on-retry')
-  handleRetry() {}
 }
 </script>
