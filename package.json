@@ -1,0 +1,29 @@
+{
+  "name": "vue-component",
+  "version": "1.0.0",
+  "description": "some vue component written by myself",
+  "main": "index.js",
+  "scripts": {
+    "test": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blesstosam/vue-component.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blesstosam/vue-component/issues"
+  },
+  "homepage": "https://github.com/blesstosam/vue-component#readme",
+  "dependencies": {
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "alias": {
+    "vue" : "./node_modules/vue/dist/vue.common.js"
+  }
+}

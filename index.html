@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>{{msg}}</div>
+      <Query :request="req">
+        <template v-slot:loading>
+          <div>loading...</div>
+        </template>
+
+        <template v-slot:nodata>
+          <h1>no data</h1>
+        </template>
+
+        <template v-slot:error>
+          <h1>error!!!</h1>
+        </template>
+
+        <template v-slot:default="{data}">
+          <h1>name: {{data.name}}</h1>
+        </template>
+      </Query>
+    </div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
