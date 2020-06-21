@@ -7,8 +7,8 @@ some vue component written by myself
 ```js
 <template>
 <Query :request="req">
-  <template v-slot:loading="{ loading }">
-    <span v-if="loading">loading...</span>
+  <template v-slot:loading>
+    <span>loading...</span>
   </template>
   <template v-slot:default="{ data }">
     <div>
@@ -35,7 +35,7 @@ some vue component written by myself
 
 ## Todo 封装的echarts地图等组件
 
-## Todo 一个库用来链式传递路由query参数
+## Todo 用来链式传递路由query参数的组件
 
 ## Todo storage 库
 

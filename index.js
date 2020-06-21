@@ -1,14 +1,26 @@
 import Vue from 'vue'
 import { Query } from './components/Query/Query'
+import { registerAlert } from './components/Alert/index'
 
 Vue.component('Query', Query)
+Vue.use(registerAlert)
 
 var vm = new Vue({
   el: '#app',
   data: {
-    msg: '1',
+    msg: '---',
+  },
+  mounted() {
+    // this.$alert()
   },
   methods: {
+    showAlert() {
+      this.$alert({title: '警告', content: '你好'})
+      // setTimeout(() => {
+      //   this.$alert({title: '警告1', content: '你好1'})
+      // }, 1000)
+    },
+
     req() {
       return this.getUser();
     },
