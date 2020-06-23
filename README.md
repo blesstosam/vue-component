@@ -47,7 +47,7 @@ some vue component written by myself
 </script>
 ```
 
-## Spacer 用法参考 Vuetify 的 Spacer
+## Spacer
 使用方法：在外层元素为display:flex，内部使用spacer，可以将spacer右边的元素顶到最右边
 ```html
 <template>

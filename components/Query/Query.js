@@ -7,7 +7,7 @@ const Query = {
       type: Boolean,
       default: true,
     },
-    // () => Promise<{ originalRes: AjaxResponse; data: any }>
+    // type: () => Promise<{ originalRes: AjaxResponse; data: any }>
     request: {
       required: true,
       validator: (p) => typeof p === 'function',
@@ -17,9 +17,9 @@ const Query = {
   data() {
     return {
       loading: false,
-      // { code: number; msg: string } | null
+      // type: { code: number; msg: string } | null
       error: null,
-      // {[k: string]: string } | Array<{ [k: string]: string }> | null =
+      // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
       data: null,
     };
   },
