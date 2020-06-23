@@ -9,17 +9,17 @@ some vue component written by myself
 ```js
 <template>
   <Query :request="req">
-    <!-- 定制loading --> 
+    <!-- 定制loading -->
     <template v-slot:loading>
       <div>loading...</div>
     </template>
 
-    <!-- 定制无数据 --> 
+    <!-- 定制无数据 -->
     <template v-slot:nodata>
       <h1>no data</h1>
     </template>
 
-    <!-- 在slot里调用retryFn重新发起请求 定制error --> 
+    <!-- 在slot里调用retryFn重新发起请求 定制error -->
     <template v-slot:error="{ retryFn , error}">
       <h1>
         <span>Error: {{error}}</span>
@@ -27,7 +27,7 @@ some vue component written by myself
       </h1>
     </template>
 
-    <!-- 数据展示 --> 
+    <!-- 数据展示 -->
     <template v-slot:default="{data}">
       <h1>name: {{data.name}}</h1>
     </template>
@@ -48,7 +48,9 @@ some vue component written by myself
 ```
 
 ## Spacer
-使用方法：在外层元素为display:flex，内部使用spacer，可以将spacer右边的元素顶到最右边
+
+使用方法：在外层元素为 display:flex，内部使用 spacer，可以将 spacer 右边的元素顶到最右边
+
 ```html
 <template>
   <div style="display: flex>
@@ -58,6 +60,25 @@ some vue component written by myself
     <div>right</div>
   </div>
 </template>
+```
+
+## Recovery.js 路由返回的时候保持页面的状态不改变
+
+使用方法：将需要复原的数据放在 recover 对象里
+
+```js
+import Recovery from 'recovery';
+// useQuery 为true 表示使用$route.query来保存数据
+Vue.use(Recovery, { useQuery: true });
+
+export default {
+  data() {
+    // 将需要复原的数据放在recover里
+    recover: {
+      tabIndex: 0
+    }
+  },
+};
 ```
 
 ## Todo 封装的 echarts 地图等组件

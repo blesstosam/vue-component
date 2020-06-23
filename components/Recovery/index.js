@@ -1,4 +1,4 @@
-export default function install(Vue, opt = { useQuery: false }) {
+export default function install(Vue, opt = { useQuery: true }) {
   // Array<Recovery>
   // when do not useQuery=false use recoveryArr to store recover data
   let recoveryArr = [];
