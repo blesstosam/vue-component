@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/blesstosam/vue-component#readme",
   "dependencies": {
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.4"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"

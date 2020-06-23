@@ -28,8 +28,17 @@
         </template>
       </Query>
 
-      <!-- <Alert>alert</Alert> -->
-      <button @click="showAlert">showalert</button>
+      <button @click="showAlert">showalert</button><br><br>
+
+      <div>{{recover}}</div>
+
+      <button @click="toFoo">Foo</button><br><br>
+
+      <button @click="toBar">Bar</button><br><br>
+
+      <button @click="$router.go(-1)">back</button><br><br>
+
+      <router-view></router-view>
     </div>
 
     <script src="./index.js"></script>

@@ -1,19 +1,51 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import { Query } from '../components/Query/Query'
 import { registerAlert } from '../components/Alert/index'
+import Recovery from '../components/Recovery/index'
 
 Vue.component('Query', Query)
 Vue.use(registerAlert)
+Vue.use(Recovery)
+Vue.use(VueRouter)
+
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+const router = new VueRouter({
+  routes: [
+    { path: '/foo', component: Foo },
+    { path: '/bar', component: Bar }
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(to, 'beforeEach')
+  next()
+})
 
 var vm = new Vue({
   el: '#app',
   data: {
-    msg: '---',
+    recover: {
+      name: 'sam',
+      age: 18
+    }
+
   },
   mounted() {
     // this.$alert()
   },
   methods: {
+    toFoo() {
+      this.recover.name = '---'
+      this.$router.push('/foo')
+      // this.rPush('/foo')
+    },
+    toBar() {
+      this.$router.push('/bar')
+      this.recover.age = 2000
+      // this.rPush('/bar')
+    },
     showAlert() {
       this.$alert({title: '警告', content: '你好'})
       // setTimeout(() => {
@@ -37,4 +69,5 @@ var vm = new Vue({
       });
     },
   },
+  router
 });
