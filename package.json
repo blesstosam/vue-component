@@ -4,7 +4,7 @@
   "description": "some vue component written by myself",
   "main": "index.js",
   "scripts": {
-    "test": "parcel index.html"
+    "test": "parcel test/index.html"
   },
   "repository": {
     "type": "git",

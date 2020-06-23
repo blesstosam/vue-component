@@ -42,7 +42,6 @@ const Query = {
   methods: {
     innnerReq() {
       this.loading = true;
-      console.log(this.request);
       this.request().then((res) => {
         this.loading = false;
         if (res.originalRes.code === 200) {
@@ -72,6 +71,8 @@ const Query = {
       error: this.error,
       showNodata: this.showNodata,
       showError: this.showError,
+      // expose the inner request fn to parent component
+      retryFn: this.innnerReq
     };
     if (this.loading) {
       return this.$scopedSlots.loading

@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import { Query } from './components/Query/Query'
-import { registerAlert } from './components/Alert/index'
+import { Query } from '../components/Query/Query'
+import { registerAlert } from '../components/Alert/index'
 
 Vue.component('Query', Query)
 Vue.use(registerAlert)

@@ -7,7 +7,6 @@
   </head>
   <body>
     <div id="app">
-      <div>{{msg}}</div>
       <Query :request="req">
         <template v-slot:loading>
           <div>loading...</div>
@@ -17,8 +16,11 @@
           <h1>no data</h1>
         </template>
 
-        <template v-slot:error>
-          <h1>error!!!</h1>
+        <template v-slot:error="{ retryFn , error}">
+          <h1>
+            <span>Error: {{error}}</span>
+            <div @click="retryFn"><button>Retry</button></div>
+          </h1>
         </template>
 
         <template v-slot:default="{data}">
