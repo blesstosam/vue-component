@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style lang="stylus">
+      .y-axis path {
+        fill: none;
+        stroke: #ccc;
+        shape-rendering: crispEdges;
+      }
+
+      .x-axis path {
+        fill: none;
+        stroke: #ccc;
+        shape-rendering: crispEdges;
+      }
+
+      .chart {
+        perspective: 1000px;
+      }
+
+      .chart svg, .stage {
+        transform: rotate3d(0, 1, 0, 25deg);
+      }
+
+      /* 坐标轴 文字加粗 */
+      .chart .tick text {
+        font-weight: bold;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div
+        class="chart"
+        style="width: 800px; height: 500px; margin: 0 auto; margin-bottom: 80px;"
+      ></div>
+    </div>
+
+  <script src="./test.js"></script>
+  </body>
+</html>

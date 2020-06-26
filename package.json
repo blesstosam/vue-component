@@ -4,7 +4,8 @@
   "description": "some vue component written by myself",
   "main": "index.js",
   "scripts": {
-    "test": "parcel test/index.html"
+    "test": "parcel test/index.html",
+    "line": "parcel components/25DLine/test.html"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,11 @@
   },
   "homepage": "https://github.com/blesstosam/vue-component#readme",
   "dependencies": {
+    "d3-axis": "^1.0.12",
+    "d3-scale": "^3.2.1",
+    "d3-selection": "^1.4.1",
+    "d3-shape": "^1.3.7",
+    "dayjs": "^1.8.28",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4"
   },
