@@ -81,7 +81,9 @@ export default {
 };
 ```
 
-## Line25D 2.5d 的折线图
+## Line25D 2.5d 效果的折线图
+
+![预览图](https://cdn.u1.huluxia.com/g4/M02/90/86/rBAAdl76lVqABkPfAAQhSmtEXYg877.png)
 
 使用方法：传入元素容器，数据和配置即可，如下
 
@@ -161,9 +163,6 @@ const chartData = {
 new Line25D(document.querySelector('.chart'), chartData);
 ```
 
-![预览图](https://github.com/blesstosam/vue-component/resource/25d-line.png)
-
 ## Todo 封装的 echarts 地图等组件
 
 ## Todo 用来链式传递路由 query 参数的组件
-
