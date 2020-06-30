@@ -123,7 +123,7 @@ const Query = {
     ]);
   },
 
-  getDefaultNodataVNode() {
+  getDefaultNodataVNode(h) {
     return h('div', { style: { color: '#ccc' } }, '暂无数据!');
   },
 };
