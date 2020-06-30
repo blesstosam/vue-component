@@ -42,18 +42,29 @@ const Query = {
   methods: {
     innnerReq() {
       this.loading = true;
-      this.request().then((res) => {
+      const response = this.request();
+      // if the request is async then use then to recieve the data
+      if (Object.prototype.toString.call(response) === '[object Promise]') {
+        // todo need use catch to handle error???
+        response.then((res) => {
+          this.loading = false;
+          this.handleResponse(res);
+        });
+      } else {
         this.loading = false;
-        if (res.originalRes.code === 200) {
-          // this.data can be previous data
-          this.data = res.data;
-        } else {
-          this.error = {
-            code: res.originalRes.code,
-            msg: res.originalRes.msg,
-          };
-        }
-      });
+        this.handleResponse(response);
+      }
+    },
+    handleResponse(res) {
+      if (res.originalRes.code === 200) {
+        // this.data can be previous data
+        this.data = res.data;
+      } else {
+        this.error = {
+          code: res.originalRes.code,
+          msg: res.originalRes.msg,
+        };
+      }
     },
     retry() {
       this.innnerReq();
@@ -72,7 +83,7 @@ const Query = {
       showNodata: this.showNodata,
       showError: this.showError,
       // expose the inner request fn to parent component
-      retryFn: this.innnerReq
+      retryFn: this.innnerReq,
     };
     if (this.loading) {
       return this.$scopedSlots.loading

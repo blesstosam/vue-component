@@ -4,7 +4,10 @@ some vue component written by myself
 
 ## Query （受到 Apollo query 组件的启发）
 
-使用方法：只需要将请求数据的接口作为函数传递进去
+使用方法：
+
+1. 只需要将请求数据的接口作为函数传递进去
+2. request 方法可以是异步请求但是要返回 promise，也可以是普通函数直接返回结果。（原理是内部会判断函数调用的结果是否是 primise 对象）
 
 ```js
 <template>
