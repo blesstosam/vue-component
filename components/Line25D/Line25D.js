@@ -10,6 +10,11 @@ import dayjs from 'dayjs';
 import Tooltip from './tooltip';
 import addLabels from './addLabels';
 
+// todo
+// 1. wrap尺寸发生改变 重新绘制图形
+// 2. 编写vue插件
+// 3. 打成包
+
 const colors = config.colors
 const margin = {
   top: 50,
@@ -143,7 +148,10 @@ class Line25D {
       .x((d) => xScale(d.x)) // x 轴坐标
       .y0(this.height) // y 轴坐标
       .y1((d) => yScale(d.y)) // y 轴坐标
-      .curve(monotoneX);
+    
+    if (this.options.useMonotoneX) {
+      theArea.curve(monotoneX)
+    } 
 
     // render line
     graphPart

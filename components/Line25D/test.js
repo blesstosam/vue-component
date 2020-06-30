@@ -74,6 +74,7 @@ var vm = new Vue({
         yTickCount: 5,
         timeFormat: 'YYYY/MM/DD HH:mm:ss',
         dotSize: 1.5,
+        useMonotoneX: false
       },
     };
     new Line25D(document.querySelector('.chart'), chartData);
@@ -84,17 +85,5 @@ var vm = new Vue({
       dateChoose: '',
       lineData: [],
     };
-  },
-
-  handleChartData(resp) {
-    for (let i = 0; i < resp.data.length - 1; i++) {
-      for (let j = 0; j < resp.data[i].series.length - i; j++) {
-        this.lineData.push({
-          chartDate: resp.data[0].series[j].chartDate,
-          今天: resp.data[0].series[j].chartValue,
-          昨天: resp.data[1].series[j].chartValue,
-        });
-      }
-    }
-  },
+  }
 });

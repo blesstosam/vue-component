@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "parcel test/index.html",
-    "line": "parcel components/25DLine/test.html"
+    "line": "parcel components/Line25D/test.html"
   },
   "repository": {
     "type": "git",
