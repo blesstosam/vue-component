@@ -55,6 +55,7 @@ const Query = {
         this.handleResponse(response);
       }
     },
+    
     handleResponse(res) {
       if (res.originalRes.code === 200) {
         // this.data can be previous data
@@ -66,12 +67,40 @@ const Query = {
         };
       }
     },
+
     retry() {
       this.innnerReq();
       this.$emit('on-retry');
     },
+
     isNil(val) {
       return val === null || val === undefined;
+    },
+
+    getDefaultErrorVNode(h) {
+      return h('div', [
+        h('span', this.error.msg),
+        h(
+          'span',
+          {
+            style: { color: '#1890ff', cursor: 'pointer' },
+            on: {
+              click: () => {
+                this.retry();
+              },
+            },
+          },
+          '请点击重试！'
+        ),
+      ]);
+    },
+
+    getDefaultNodataVNode(h) {
+      return h('div', { style: { color: '#ccc' } }, '暂无数据!');
+    },
+
+    getLoadingVNode(h) {
+      return h('div', '加载中...');
     },
   },
 
@@ -88,7 +117,7 @@ const Query = {
     if (this.loading) {
       return this.$scopedSlots.loading
         ? h('div', this.$scopedSlots.loading(returnData))
-        : h('div', '加载中...');
+        : this.getLoadingVNode(h);
     }
     if (this.showError) {
       return this.$scopedSlots.error
@@ -103,29 +132,7 @@ const Query = {
     return this.$scopedSlots.default
       ? this.$scopedSlots.default(returnData)
       : h('div', JSON.stringify(this.data));
-  },
-
-  getDefaultErrorVNode(h) {
-    return h('div', [
-      h('span', this.error.msg),
-      h(
-        'span',
-        {
-          style: { color: '#1890ff', cursor: 'pointer' },
-          on: {
-            click: () => {
-              this.retry();
-            },
-          },
-        },
-        '请点击重试！'
-      ),
-    ]);
-  },
-
-  getDefaultNodataVNode(h) {
-    return h('div', { style: { color: '#ccc' } }, '暂无数据!');
-  },
+  }
 };
 
 export { Query };

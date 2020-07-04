@@ -6,8 +6,8 @@ import Recovery from '../components/Recovery/index'
 
 Vue.component('Query', Query)
 Vue.use(registerAlert)
-Vue.use(Recovery)
 Vue.use(VueRouter)
+Vue.use(Recovery)
 
 const Foo = { template: '<div>foo</div>' }
 const Bar = { template: '<div>bar</div>' }

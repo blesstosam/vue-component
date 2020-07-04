@@ -13,12 +13,12 @@ function alert({ title, content }) {
         content,
       },
     }).$mount();
-    document.body.appendChild(instanceCache.$el);
+    document.body.prepend(instanceCache.$el);
   } else {
     instanceCache.title = title;
     instanceCache.content = content;
   }
-  instanceCache.open()
+  instanceCache.open();
 }
 
 export function registerAlert() {

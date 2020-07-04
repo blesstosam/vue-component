@@ -5,9 +5,11 @@ export default function install(Vue, opt = { useQuery: true }) {
   Vue.mixin({
     created() {
       // root vue
-      if (this.$root === this) {
+      // avoid the component init by Vue.extend =>
+      // Object.getPrototypeOf(this).constructor === Vue
+      if (this.$root === this && Object.getPrototypeOf(this).constructor === Vue) {
         if (!this.$router) {
-          throw new Error('you need use vue-router first!');
+          throw new Error('You need use vue-router first!');
         }
 
         let _self = this;

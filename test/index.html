@@ -7,10 +7,11 @@
   </head>
   <body>
     <div id="app">
+      <h1>Query Test ------------</h1>
       <Query :request="req">
-        <template v-slot:loading>
+        <!-- <template v-slot:loading>
           <div>loading...</div>
-        </template>
+        </template> -->
 
         <template v-slot:nodata>
           <h1>no data</h1>
@@ -28,15 +29,17 @@
         </template>
       </Query>
 
+      <h1>Alert Test ------------</h1>
       <button @click="showAlert">showalert</button><br><br>
 
+      <h1>Recovery ----------</h1>
       <div>{{recover}}</div>
 
-      <button @click="toFoo">Foo</button><br><br>
+      <button @click="toFoo">Foo</button>
 
-      <button @click="toBar">Bar</button><br><br>
+      <button @click="toBar">Bar</button>
 
-      <button @click="$router.go(-1)">back</button><br><br>
+      <button @click="$router.go(-1)">back</button><br>
 
       <router-view></router-view>
     </div>
