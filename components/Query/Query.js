@@ -7,7 +7,7 @@ const Query = {
       type: Boolean,
       default: true,
     },
-    // type: () => Promise<{ originalRes: AjaxResponse; data: any }>
+    // type: () => Promise<AjaxResponse>
     request: {
       required: true,
       validator: (p) => typeof p === 'function',
@@ -26,7 +26,7 @@ const Query = {
 
   created() {
     if (this.autoReq) {
-      this.innnerReq();
+      this.innerReq();
     }
   },
 
@@ -40,7 +40,7 @@ const Query = {
   },
 
   methods: {
-    innnerReq() {
+    innerReq() {
       this.loading = true;
       const response = this.request();
       // if the request is async then use then to recieve the data
@@ -57,20 +57,15 @@ const Query = {
     },
     
     handleResponse(res) {
-      if (res.originalRes.code === 200) {
+      if (res.code === 200) {
         // this.data can be previous data
         this.data = res.data;
       } else {
         this.error = {
-          code: res.originalRes.code,
-          msg: res.originalRes.msg,
+          code: res.code,
+          msg: res.msg,
         };
       }
-    },
-
-    retry() {
-      this.innnerReq();
-      this.$emit('on-retry');
     },
 
     isNil(val) {
@@ -85,9 +80,7 @@ const Query = {
           {
             style: { color: '#1890ff', cursor: 'pointer' },
             on: {
-              click: () => {
-                this.retry();
-              },
+              click: this.innerReq,
             },
           },
           '请点击重试！'
@@ -112,7 +105,7 @@ const Query = {
       showNodata: this.showNodata,
       showError: this.showError,
       // expose the inner request fn to parent component
-      retryFn: this.innnerReq,
+      queryFn: this.innerReq,
     };
     if (this.loading) {
       return this.$scopedSlots.loading

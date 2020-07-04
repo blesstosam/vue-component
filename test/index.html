@@ -10,17 +10,17 @@
       <h1>Query Test ------------</h1>
       <Query :request="req">
         <!-- <template v-slot:loading>
-          <div>loading...</div>
+          <div>loading...}}</div>
         </template> -->
 
         <template v-slot:nodata>
           <h1>no data</h1>
         </template>
 
-        <template v-slot:error="{ retryFn , error}">
+        <template v-slot:error="{ queryFn , error}">
           <h1>
             <span>Error: {{error}}</span>
-            <div @click="retryFn"><button>Retry</button></div>
+            <div @click="queryFn"><button>Retry</button></div>
           </h1>
         </template>
 
@@ -42,6 +42,21 @@
       <button @click="$router.go(-1)">back</button><br>
 
       <router-view></router-view>
+
+      <h1>Mutation -------------</h1>
+      <Mutation :put="put" @on-success="handleSucess" @on-error="handleError">
+        <template v-slot:query>
+          <Query :request="req">
+            <template v-slot:default="{data}">
+              <h1>name: {{data.name}}</h1>
+            </template>
+          </Query>
+        </template>
+        <template v-slot:action="{mutateFn, loading}">
+          <span v-if="loading">modifying...</span>
+          <button v-else @click="mutateFn">enter</button>
+        </template>
+      </Mutation>
     </div>
 
     <script src="./index.js"></script>

@@ -6,7 +6,7 @@ some vue component written by myself
 
 使用方法：
 
-1. 只需要将请求数据的接口作为函数传递进去
+1. 将请求数据的接口作为函数传递进去
 2. request 方法可以是异步请求但是要返回 promise，也可以是普通函数直接返回结果。（原理是内部会判断函数调用的结果是否是 primise 对象）
 
 ```js
@@ -22,11 +22,11 @@ some vue component written by myself
       <h1>no data</h1>
     </template>
 
-    <!-- 在slot里调用retryFn重新发起请求 定制error -->
-    <template v-slot:error="{ retryFn , error}">
+    <!-- 在slot里调用queryFn重新发起请求 定制error -->
+    <template v-slot:error="{ queryFn , error}">
       <h1>
         <span>Error: {{error}}</span>
-        <div @click="retryFn"><button>Retry</button></div>
+        <div @click="queryFn"><button>Retry</button></div>
       </h1>
     </template>
 
@@ -42,12 +42,37 @@ some vue component written by myself
     async req() {
       const res = await getUser()
       return {
-        originalRes: res,
-        data: res.data
+        code: res.code,
+        data: res.data,
+        msg: res.msg
       }
     }
   }
 </script>
+```
+
+## Mutation
+
+使用方法：
+
+1. 将 mutation 的接口作为函数传递进去
+2. put 方法可以是异步请求但是要返回 promise，也可以是普通函数直接返回结果
+3. 如果里面有 query 组件，要放在 slot 里，mutation 成功后会自动调用 query 的 req，重新获取数据
+
+```js
+<Mutation :put="put" @on-success="handleSucess" @on-error="handleError">
+  <template v-slot:query>
+    <Query :request="req">
+      <template v-slot:default="{data}">
+        <h1>name: {{data.name}}</h1>
+      </template>
+    </Query>
+  </template>
+  <template v-slot:action="{mutateFn, loading}">
+    <span v-if="loading">modifying...</span>
+    <button v-else @click="mutateFn">enter</button>
+  </template>
+</Mutation>
 ```
 
 ## Spacer
