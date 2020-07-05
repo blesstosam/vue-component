@@ -97,5 +97,5 @@ const Mutation = {
   }
 };
 
-export { Mutation };
+export default Mutation;
 

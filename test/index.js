@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { Query } from '../components/Query/Query';
+import Query from '../components/Query/Query';
+import Mutation from '../components/Mutation/Mutation';
 import { registerAlert } from '../components/Alert/index';
 import Recovery from '../components/Recovery/index';
-import { Mutation } from '../components/Mutation/Mutation';
 
 Vue.component('Query', Query);
 Vue.component('Mutation', Mutation);
@@ -68,10 +68,10 @@ var vm = new Vue({
     },
 
     handleSucess(msg) {
-      alert(msg)
+      alert(msg);
     },
     handleError(msg) {
-      alert(msg)
+      alert(msg);
     },
 
     getUser() {
@@ -79,7 +79,7 @@ var vm = new Vue({
         var res = { code: 2100, msg: '1', data: { name: 'sam' } };
         setTimeout(() => {
           resolve(res);
-        }, 1000);
+        }, 500);
       });
     },
   },

@@ -1,3 +1,5 @@
+const DELAY_LOADING_TIME = 200;
+
 const Query = {
   name: 'Query',
 
@@ -17,6 +19,7 @@ const Query = {
   data() {
     return {
       loading: false,
+      delaying: false,
       // type: { code: number; msg: string } | null
       error: null,
       // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
@@ -32,7 +35,7 @@ const Query = {
 
   computed: {
     showNodata() {
-      return this.isNil(this.data) && !this.loading && !this.error;
+      return this.isNil(this.data) && !this.loading && !this.error && !this.delaying;
     },
     showError() {
       return this.error && !this.loading;
@@ -41,24 +44,30 @@ const Query = {
 
   methods: {
     innerReq() {
-      this.loading = true;
+      // delay 200ms to show loading
+      this.delaying = true;
+      this.timer = setTimeout(() => {
+        this.loading = true;
+        this.delaying = false;
+      }, DELAY_LOADING_TIME);
       const response = this.request();
       // if the request is async then use then to recieve the data
       if (Object.prototype.toString.call(response) === '[object Promise]') {
         // todo need use catch to handle error???
         response.then((res) => {
           this.loading = false;
+          this.timer && window.clearTimeout(this.timer)
           this.handleResponse(res);
         });
       } else {
         this.loading = false;
+        this.timer && window.clearTimeout(this.timer)
         this.handleResponse(response);
       }
     },
-    
+
     handleResponse(res) {
       if (res.code === 200) {
-        // this.data can be previous data
         this.data = res.data;
       } else {
         this.error = {
@@ -128,4 +137,4 @@ const Query = {
   }
 };
 
-export { Query };
+export default Query;
