@@ -21,6 +21,14 @@ function alert({ title, content }) {
   instanceCache.open();
 }
 
-export function registerAlert() {
-  Vue.prototype.$alert = alert;
-}
+export default {
+  install(Vue) {
+    Vue.prototype.$alert = alert;
+  },
+  success(props) {
+    return alert({ title: 'success', ...props });
+  },
+  error(props) {
+    return alert({ title: 'error', ...props });
+  },
+};

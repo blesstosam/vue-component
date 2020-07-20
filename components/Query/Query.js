@@ -24,6 +24,7 @@ const Query = {
       error: null,
       // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
       data: null,
+      resolved: false,  // if the promise resolved
     };
   },
 
@@ -44,6 +45,7 @@ const Query = {
 
   methods: {
     innerReq() {
+      this.resolved = false
       // delay 200ms to show loading
       this.delaying = true;
       this.timer = setTimeout(() => {
@@ -55,11 +57,13 @@ const Query = {
       if (Object.prototype.toString.call(response) === '[object Promise]') {
         // todo need use catch to handle error???
         response.then((res) => {
+          this.resolved = true
           this.loading = false;
           this.timer && window.clearTimeout(this.timer)
           this.handleResponse(res);
         });
       } else {
+        this.resolved = true
         this.loading = false;
         this.timer && window.clearTimeout(this.timer)
         this.handleResponse(response);
@@ -131,9 +135,12 @@ const Query = {
         ? this.$scopedSlots.nodata(returnData)
         : this.getDefaultNodataVNode(h);
     }
-    return this.$scopedSlots.default
+    if (this.resolved) {
+      return this.$scopedSlots.default
       ? this.$scopedSlots.default(returnData)
       : h('div', JSON.stringify(this.data));
+    }
+    return h()
   }
 };
 

@@ -2,12 +2,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Query from '../components/Query/Query';
 import Mutation from '../components/Mutation/Mutation';
-import { registerAlert } from '../components/Alert/index';
+import Alert from '../components/Alert/index';
 import Recovery from '../components/Recovery/index';
 
 Vue.component('Query', Query);
 Vue.component('Mutation', Mutation);
-Vue.use(registerAlert);
+Vue.use(Alert);
 Vue.use(VueRouter);
 Vue.use(Recovery);
 
@@ -49,9 +49,9 @@ var vm = new Vue({
     },
     showAlert() {
       this.$alert({ title: '警告', content: '你好' });
-      // setTimeout(() => {
-      //   this.$alert({title: '警告1', content: '你好1'})
-      // }, 1000)
+      setTimeout(() => {
+        Alert.error({ content: '你好1' });
+      }, 1000);
     },
 
     req() {
@@ -60,7 +60,7 @@ var vm = new Vue({
 
     put() {
       return new Promise((resolve) => {
-        var res = { code: 200, msg: 'ok', data: null };
+        var res = { code: 200, msg: 'ok', data: { name: 'blesstosam' } };
         setTimeout(() => {
           resolve(res);
         }, 1000);
@@ -76,7 +76,7 @@ var vm = new Vue({
 
     getUser() {
       return new Promise((resolve) => {
-        var res = { code: 2100, msg: '1', data: { name: 'sam' } };
+        var res = { code: 200, msg: '1', data: { name: 'sam' } };
         setTimeout(() => {
           resolve(res);
         }, 500);
