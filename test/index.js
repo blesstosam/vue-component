@@ -75,10 +75,11 @@ var vm = new Vue({
     },
 
     getUser() {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         var res = { code: 200, msg: '1', data: { name: 'sam' } };
         setTimeout(() => {
           resolve(res);
+          // reject({error: 'lll'})
         }, 500);
       });
     },

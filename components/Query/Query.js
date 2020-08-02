@@ -1,4 +1,5 @@
 const DELAY_LOADING_TIME = 200;
+const SUCCESS_CODE = 200
 
 const Query = {
   name: 'Query',
@@ -14,13 +15,18 @@ const Query = {
       required: true,
       validator: (p) => typeof p === 'function',
     },
+    // you can use your custom http success code ex: 0
+    successCode: {
+      type: Number,
+      default: SUCCESS_CODE
+    }
   },
 
   data() {
     return {
       loading: false,
       delaying: false,
-      // type: { code: number; msg: string } | null
+      // type: { code: number; msg: string } | null | any
       error: null,
       // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
       data: null,
@@ -53,25 +59,29 @@ const Query = {
         this.delaying = false;
       }, DELAY_LOADING_TIME);
       const response = this.request();
-      // if the request is async then use then to recieve the data
+      // if the request return promise then use then to recieve the data
       if (Object.prototype.toString.call(response) === '[object Promise]') {
-        // todo need use catch to handle error???
         response.then((res) => {
-          this.resolved = true
-          this.loading = false;
-          this.timer && window.clearTimeout(this.timer)
+          this.handleStatus();
           this.handleResponse(res);
+        }).catch(err => {
+          this.handleStatus();
+          this.handleError(err);
         });
       } else {
-        this.resolved = true
-        this.loading = false;
-        this.timer && window.clearTimeout(this.timer)
+        this.handleStatus();
         this.handleResponse(response);
       }
     },
 
+    handleStatus() {
+      this.resolved = true;
+      this.loading = false;
+      this.timer && window.clearTimeout(this.timer);
+    },
+
     handleResponse(res) {
-      if (res.code === 200) {
+      if (res.code === this.successCode) {
         this.data = res.data;
       } else {
         this.error = {
@@ -81,13 +91,18 @@ const Query = {
       }
     },
 
+    handleError(err) {
+      this.error = err
+      console.error(`Request in Query component error: ${JSON.stringify(err)}`)
+    },
+
     isNil(val) {
       return val === null || val === undefined;
     },
 
     getDefaultErrorVNode(h) {
       return h('div', [
-        h('span', this.error.msg),
+        h('span', this.error.msg || JSON.stringify(this.error)),
         h(
           'span',
           {
