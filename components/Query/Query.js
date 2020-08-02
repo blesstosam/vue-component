@@ -83,16 +83,19 @@ const Query = {
     handleResponse(res) {
       if (res.code === this.successCode) {
         this.data = res.data;
+        this.$emit('on-success',res.msg)
       } else {
         this.error = {
           code: res.code,
           msg: res.msg,
         };
+        this.$emit('on-error', res.msg)
       }
     },
 
     handleError(err) {
       this.error = err
+      this.$emit('on-error', this.error.msg || JSON.stringify(this.error))
       console.error(`Request in Query component error: ${JSON.stringify(err)}`)
     },
 
