@@ -30,7 +30,7 @@ const Query = {
       error: null,
       // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
       data: null,
-      resolved: false, // if the promise resolved
+      resolved: false,
     }
   },
 
@@ -48,7 +48,6 @@ const Query = {
 
   methods: {
     innerReq() {
-      this.resolved = false
       // delay 200ms to show loading
       this.delaying = true
       this.timer = setTimeout(() => {
@@ -96,7 +95,6 @@ const Query = {
           code: res.code,
           msg: res.msg,
         })
-        this.$emit('on-error', res.msg)
       }
     },
 
