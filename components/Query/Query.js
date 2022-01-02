@@ -84,6 +84,7 @@ const Query = {
       this.delaying = false
       this.loading = false
       this.timer && window.clearTimeout(this.timer)
+      this.timer = null
     },
 
     handleResponse(res) {
