@@ -9,7 +9,7 @@ some vue component written by myself
 1. 将请求数据的接口作为函数传递进去
 2. request 方法可以是异步请求但是要返回 promise，也可以是普通函数直接返回结果。（原理是内部会判断函数调用的结果是否是 primise 对象）
 
-```js
+```html
 <template>
   <Query :request="req">
     <!-- 定制loading -->
@@ -22,16 +22,16 @@ some vue component written by myself
       <h1>no data</h1>
     </template>
 
-    <!-- 在slot里调用queryFn重新发起请求 定制error -->
-    <template v-slot:error="{ queryFn , error}">
+    <!-- 在slot里调用 refetch 重新发起请求 定制 error -->
+    <template v-slot:error="{ refetch , error}">
       <h1>
         <span>Error: {{error}}</span>
-        <div @click="queryFn"><button>Retry</button></div>
+        <div @click="refetch"><button>Retry</button></div>
       </h1>
     </template>
 
     <!-- 数据展示 -->
-    <template v-slot:default="{data}">
+    <template v-slot:default="{ data }">
       <h1>name: {{data.name}}</h1>
     </template>
   </Query>
@@ -63,12 +63,12 @@ some vue component written by myself
 <Mutation :put="put" @on-success="handleSucess" @on-error="handleError">
   <template v-slot:query>
     <Query :request="req">
-      <template v-slot:default="{data}">
+      <template v-slot:default="{ data }">
         <h1>name: {{data.name}}</h1>
       </template>
     </Query>
   </template>
-  <template v-slot:action="{mutateFn, loading}">
+  <template v-slot:action="{ mutateFn, loading }">
     <span v-if="loading">modifying...</span>
     <button v-else @click="mutateFn">enter</button>
   </template>

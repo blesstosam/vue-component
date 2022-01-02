@@ -14,52 +14,46 @@ const Mutation = {
       loading: false,
       // type: { code: number; msg: string } | null
       error: null,
-    };
-  },
-
-  computed: {
-    showError() {
-      return this.error && !this.loading;
-    },
+    }
   },
 
   methods: {
     innerPut() {
-      this.loading = true;
-      const response = this.put();
+      this.loading = true
+      const response = this.put()
       // if the response is promise then use then to recieve data
       if (Object.prototype.toString.call(response) === '[object Promise]') {
         response
           .then((res) => {
-            this.loading = false;
-            this.handleResponse(res);
+            this.loading = false
+            this.handleResponse(res)
           })
           .catch((err) => {
-            this.error = err;
-            this.$emit('on-error', this.error.msg || JSON.stringify(this.error));
+            this.error = err
+            this.$emit('on-error', this.error.msg || JSON.stringify(this.error))
             console.error(`Request in Mutation component error: ${JSON.stringify(err)}`)
-          });
+          })
       } else {
-        this.loading = false;
-        this.handleResponse(response);
+        this.loading = false
+        this.handleResponse(response)
       }
     },
 
     handleResponse(res) {
       if (res.code === 200) {
-        this.$emit('on-success', res.msg);
+        this.$emit('on-success', res.msg)
         // if has query component slot request data again
         this.$children.forEach((component) => {
           if (component.$options.name === 'Query' && component.innerReq) {
-            component.innerReq();
+            component.innerReq()
           }
-        });
+        })
       } else {
         this.error = {
           code: res.code,
           msg: res.msg,
-        };
-        this.$emit('on-error', this.error.msg);
+        }
+        this.$emit('on-error', this.error.msg)
       }
     },
 
@@ -74,26 +68,25 @@ const Mutation = {
               click: this.innerPut,
             },
           },
-          '请点击重试！'
+          '请点击重试！',
         ),
-      ]);
+      ])
     },
   },
 
   render(h) {
-    const acceptsSlot = ['query', 'action'];
+    const acceptsSlot = ['query', 'action']
     const returnData = {
       loading: this.loading,
       error: this.error,
-      showError: this.showError,
       // expose the inner request fn to parent component
       mutateFn: this.innerPut,
-    };
+    }
 
-    if (this.showError) {
+    if (this.error) {
       return this.$scopedSlots.error
         ? this.$scopedSlots.error(returnData)
-        : this.getDefaultErrorVNode(h);
+        : this.getDefaultErrorVNode(h)
     }
     // render all slot by order
     return h(
@@ -101,10 +94,10 @@ const Mutation = {
       Object.keys(this.$scopedSlots)
         .filter((key) => acceptsSlot.indexOf(key) > -1)
         .map((key) => {
-          return this.$scopedSlots[key](returnData);
-        })
-    );
+          return this.$scopedSlots[key](returnData)
+        }),
+    )
   },
-};
+}
 
-export default Mutation;
+export default Mutation

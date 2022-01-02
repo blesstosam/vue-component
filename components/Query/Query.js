@@ -1,4 +1,4 @@
-const DELAY_LOADING_TIME = 200;
+const DELAY_LOADING_TIME = 200
 const SUCCESS_CODE = 200
 
 const Query = {
@@ -18,8 +18,8 @@ const Query = {
     // you can use your custom http success code ex: 0
     successCode: {
       type: Number,
-      default: SUCCESS_CODE
-    }
+      default: SUCCESS_CODE,
+    },
   },
 
   data() {
@@ -30,22 +30,19 @@ const Query = {
       error: null,
       // type: {[k: string]: string } | Array<{ [k: string]: string }> | null
       data: null,
-      resolved: false,  // if the promise resolved
-    };
+      resolved: false, // if the promise resolved
+    }
   },
 
   created() {
     if (this.autoReq) {
-      this.innerReq();
+      this.innerReq()
     }
   },
 
   computed: {
-    showNodata() {
-      return this.isNil(this.data) && !this.loading && !this.error && !this.delaying;
-    },
-    showError() {
-      return this.error && !this.loading;
+    noData() {
+      return this.isNil(this.data) && !this.loading && !this.error && !this.delaying
     },
   },
 
@@ -53,42 +50,52 @@ const Query = {
     innerReq() {
       this.resolved = false
       // delay 200ms to show loading
-      this.delaying = true;
+      this.delaying = true
       this.timer = setTimeout(() => {
-        this.loading = true;
-        this.delaying = false;
-      }, DELAY_LOADING_TIME);
-      const response = this.request();
+        this.loading = true
+        this.delaying = false
+      }, DELAY_LOADING_TIME)
+      const response = this.request()
       // if the request return promise then use then to recieve the data
       if (Object.prototype.toString.call(response) === '[object Promise]') {
-        response.then((res) => {
-          this.handleStatus();
-          this.handleResponse(res);
-        }).catch(err => {
-          this.handleStatus();
-          this.handleError(err);
-        });
+        response
+          .then((res) => {
+            this.handleStatus()
+            this.handleResponse(res)
+          })
+          .catch((err) => {
+            this.handleStatus()
+            this.handleError(err)
+          })
       } else {
-        this.handleStatus();
-        this.handleResponse(response);
+        this.handleStatus()
+        this.handleResponse(response)
       }
     },
 
+    refetch() {
+      this.resolved = false
+      this.error = null
+      this.data = null
+      this.innerReq()
+    },
+
     handleStatus() {
-      this.resolved = true;
-      this.loading = false;
-      this.timer && window.clearTimeout(this.timer);
+      this.resolved = true
+      this.delaying = true
+      this.loading = false
+      this.timer && window.clearTimeout(this.timer)
     },
 
     handleResponse(res) {
       if (res.code === this.successCode) {
-        this.data = res.data;
-        this.$emit('on-success',res.msg)
+        this.data = res.data
+        this.$emit('on-success', res.msg)
       } else {
-        this.error = {
+        this.handleError({
           code: res.code,
           msg: res.msg,
-        };
+        })
         this.$emit('on-error', res.msg)
       }
     },
@@ -97,10 +104,6 @@ const Query = {
       this.error = err
       this.$emit('on-error', this.error.msg || JSON.stringify(this.error))
       console.error(`Request in Query component error: ${JSON.stringify(err)}`)
-    },
-
-    isNil(val) {
-      return val === null || val === undefined;
     },
 
     getDefaultErrorVNode(h) {
@@ -114,17 +117,21 @@ const Query = {
               click: this.innerReq,
             },
           },
-          '请点击重试！'
+          '请点击重试！',
         ),
-      ]);
+      ])
     },
 
     getDefaultNodataVNode(h) {
-      return h('div', { style: { color: '#ccc' } }, '暂无数据!');
+      return h('div', { style: { color: '#ccc' } }, '暂无数据!')
     },
 
     getLoadingVNode(h) {
-      return h('div', '加载中...');
+      return h('div', '加载中...')
+    },
+
+    isNil(val) {
+      return val === null || val === undefined
     },
   },
 
@@ -133,33 +140,31 @@ const Query = {
       data: this.data,
       loading: this.loading,
       error: this.error,
-      showNodata: this.showNodata,
-      showError: this.showError,
-      // expose the inner request fn to parent component
-      queryFn: this.innerReq,
-    };
+      noData: this.noData,
+      refetch: this.refetch,
+    }
     if (this.loading) {
       return this.$scopedSlots.loading
         ? h('div', this.$scopedSlots.loading(returnData))
-        : this.getLoadingVNode(h);
+        : this.getLoadingVNode(h)
     }
-    if (this.showError) {
+    if (this.error) {
       return this.$scopedSlots.error
         ? this.$scopedSlots.error(returnData)
-        : this.getDefaultErrorVNode(h);
+        : this.getDefaultErrorVNode(h)
     }
-    if (this.showNodata) {
+    if (this.noData) {
       return this.$scopedSlots.nodata
         ? this.$scopedSlots.nodata(returnData)
-        : this.getDefaultNodataVNode(h);
+        : this.getDefaultNodataVNode(h)
     }
     if (this.resolved) {
       return this.$scopedSlots.default
-      ? this.$scopedSlots.default(returnData)
-      : h('div', JSON.stringify(this.data));
+        ? this.$scopedSlots.default(returnData)
+        : h('div', JSON.stringify(this.data))
     }
     return h()
-  }
-};
+  },
+}
 
-export default Query;
+export default Query

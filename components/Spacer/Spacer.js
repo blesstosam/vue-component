@@ -3,10 +3,10 @@ const Spacer = {
   render(h) {
     return h('div', {
       style: {
-        'flex-grow': '1 !important'
-      }
+        'flex-grow': '1 !important',
+      },
     })
-  }
+  },
 }
 
-export { Spacer }  
+export { Spacer }
