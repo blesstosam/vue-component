@@ -1,6 +1,6 @@
 # vue-component
 
-some vue component written by myself
+一些自己写的 vue 组件
 
 ## Query （受到 Apollo query 组件的启发）
 

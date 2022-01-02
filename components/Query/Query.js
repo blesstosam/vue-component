@@ -42,7 +42,7 @@ const Query = {
 
   computed: {
     noData() {
-      return this.isNil(this.data) && !this.loading && !this.error && !this.delaying
+      return this.isNil(this.data) && !this.error && !this.resolved
     },
   },
 
@@ -81,7 +81,7 @@ const Query = {
 
     handleStatus() {
       this.resolved = true
-      this.delaying = true
+      this.delaying = false
       this.loading = false
       this.timer && window.clearTimeout(this.timer)
     },
