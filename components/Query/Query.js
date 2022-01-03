@@ -75,7 +75,6 @@ const Query = {
     refetch() {
       this.resolved = false
       this.error = null
-      this.data = null
       this.innerReq()
     },
 
